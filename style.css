@@ -312,7 +312,8 @@ button:disabled {
 }
 
 .gacha-card {
-    display: flex;
+    /* display: flex; */
+    display: none;
     align-items: center;
     justify-content: space-between;
     gap: 20px;

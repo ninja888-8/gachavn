@@ -108,7 +108,8 @@ async function sendImageToBackend() {
         //         "answer": "An amino group and a carboxyl group"
         //     }
         // ]
-        
+        console.log('Response from backend:', answer);
+
         if (typeof answer === 'string') {
             answer = JSON.parse(answer);
         }

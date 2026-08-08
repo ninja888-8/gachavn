@@ -3,7 +3,7 @@ import { getEarnedPulls, renderPullCount, spendPulls } from "./pull-count.js";
 
 type Rarity = 'Common' | 'Rare' | 'Legendary';
 
-interface GachaItem {
+export interface GachaItem {
     name: string;
     rarity: Rarity;
 }
@@ -82,7 +82,7 @@ function makeGachaPull(count = 1): void {
     const results = gacha.pull(count);
     spendPulls(count);
     updatePullDisplay();
-    pull(count);
+    pull(count, results);
     printResults(results);
 }
 
