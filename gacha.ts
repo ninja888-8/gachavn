@@ -1,3 +1,5 @@
+import { pull } from "./canvas.ts";
+
 type Rarity = 'Common' | 'Rare' | 'Legendary';
 
 interface GachaItem {
@@ -64,6 +66,7 @@ function printResults(pulls: GachaItem[]): void {
 function makeGachaPull(count = 1): void {
     const gacha = new Gacha();
     const results = gacha.pull(count);
+    pull(count)
     printResults(results);
 }
 
