@@ -1,14 +1,7 @@
 # gachavn
-gacha visual novel
+gacha visual novel!!!
 
-first install typescript
-
-``` npm install typescript ```
-
-and compile typescript into javascript
-
-``` npx tsc ```
-
+### backend setup
 create and enter python virtual environment (for windows powershell, replace the second line with .venv\Scripts\Activate.ps1)
 ``` 
 python -m venv .venv 
@@ -23,4 +16,15 @@ and also make sure to set your gemini API key (navigate to https://aistudio.goog
 
 ``` cp .env.example .env ```
 
-and fill in the field in .env with your API key
+and fill in the field in .env with your API key and run the backend now!!
+
+``` python llm.py ```
+
+### frontend setup
+in another terminal instance, run the following commands to run the frontend!
+
+```
+npm install typescript
+npm install -D vite
+npm run dev
+```
