@@ -1,16 +1,29 @@
 import { llmResponse } from './connection.js';
+import { getEarnedPulls, incrementEarnedPulls, renderPullCount } from './pull-count.js';
 
 const quizMenu = document.getElementById('quiz-menu') as HTMLDivElement;
 const questionHeader = document.getElementById('question-header') as HTMLDivElement;
 const answerChoices = document.querySelectorAll('#answer-choices button') as NodeListOf<HTMLButtonElement>;
 const readyBtn = document.getElementById('ready-btn') as HTMLButtonElement;
+const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDivElement | null;
+const questionProgress = document.getElementById('question-progress') as HTMLDivElement | null;
+const quizFeedback = document.getElementById('quiz-feedback') as HTMLDivElement | null;
 
 let currentQuestionIndex = 0;
-let earnedPulls = 0;
+let earnedPulls = getEarnedPulls();
 
 export function toggleQuizMenu() {
     if (quizMenu) {
         quizMenu.style.display = quizMenu.style.display == 'none' ? 'block' : 'none';
+    }
+}
+
+function updatePullSummary(message?: string) {
+    earnedPulls = getEarnedPulls();
+    renderPullCount(pullCountDisplay);
+
+    if (quizFeedback) {
+        quizFeedback.textContent = message ?? `Correct answers add pulls. Your stash is now ${earnedPulls}.`;
     }
 }
 
@@ -22,8 +35,15 @@ function initQuestion(questionIndex: number = 0) {
         const choices = llmResponse[questionIndex].options;
 
         answerChoices.forEach((button, index) => {
+            button.style.display = 'block';
             button.textContent = choices[index];
         });
+
+        if (questionProgress) {
+            questionProgress.textContent = `Question ${questionIndex + 1} of ${llmResponse.length}`;
+        }
+
+        updatePullSummary('Pick the best answer to earn a pull.');
     }
     else {
         console.log("failed to fetch llmResponse from connection.js");
@@ -32,11 +52,13 @@ function initQuestion(questionIndex: number = 0) {
 
 function answerQuestion(buttonId: number) {
     if (llmResponse) {
-        if (llmResponse[currentQuestionIndex].options[buttonId - 1] === llmResponse[currentQuestionIndex].answer) {
-            earnedPulls++;
-            alert("Correct!");
+        const isCorrect = llmResponse[currentQuestionIndex].options[buttonId - 1] === llmResponse[currentQuestionIndex].answer;
+
+        if (isCorrect) {
+            incrementEarnedPulls();
+            updatePullSummary('Correct! Your pull stash just grew.');
         } else {
-            alert(`Incorrect! The correct answer is: ${llmResponse[currentQuestionIndex].answer}`);
+            updatePullSummary(`Not quite. The correct answer was: ${llmResponse[currentQuestionIndex].answer}`);
         }
 
         if (currentQuestionIndex < llmResponse.length - 1) {
@@ -48,14 +70,15 @@ function answerQuestion(buttonId: number) {
                 button.style.display = 'none';
             });
             readyBtn.style.display = 'none';
+            if (questionProgress) {
+                questionProgress.textContent = 'Quiz complete';
+            }
+            updatePullSummary('You finished the set. Head to the gacha room to spend your pulls.');
         }
     }
     else {
         console.log("failed to fetch llmResponse from connection.js");
     }
-
-    // temp
-    console.log(`Earned pulls: ${earnedPulls}`);
 }
 
 function handleAnswerClick(event: Event) {
@@ -69,3 +92,5 @@ readyBtn?.addEventListener('click', () => initQuestion(currentQuestionIndex));
 answerChoices.forEach(button => {
     button.addEventListener('click', handleAnswerClick);
 });
+
+updatePullSummary('Upload a study sheet to begin.');

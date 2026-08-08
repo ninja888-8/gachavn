@@ -150,10 +150,12 @@ imageInput?.addEventListener('change', function(event) {
 
         reader.onload = function(e: ProgressEvent<FileReader>) {
             if (preview) {
+                const placeholder = document.querySelector('.dropzone-placeholder') as HTMLSpanElement | null;
                 preview.src = e.target?.result as string;
                 preview.style.display = 'block';
-                preview.style.maxWidth = '90vw';
-                preview.style.maxHeight = '90vh';
+                if (placeholder) {
+                    placeholder.style.opacity = '0';
+                }
                 submitBtn.disabled = false;
             }
         }
@@ -163,4 +165,3 @@ imageInput?.addEventListener('change', function(event) {
 });
 
 submitBtn?.addEventListener('click', sendImageToBackend);
-toggleQuizMenu(); // hide quiz menu on page load

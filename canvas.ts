@@ -86,8 +86,8 @@ function draw() {
         } else {
             starOpacity = 0;
             starPos.length = 0;
-            // pullControls[0].disabled = false;
-            // pullControls[1].disabled = false;
+            pullControls[0].disabled = false;
+            pullControls[1].disabled = false;
 
             ctx.globalAlpha = 1;
             ctx.fillStyle = "rgb(4, 5, 36)";

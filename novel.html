@@ -1,27 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>gacha</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gacha Study Quest</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
-    <div id="upload-menu">
-        <label for="image-picker">Upload study sheet:</label>
-        <input type="file" id="image-picker" name="study_sheet" accept="image/*">
-        <img id="preview" alt="Your image will appear here" src="" style="display:none;"/>
-        <button id="submit-btn">submit</button>
-    </div>
+<body class="visual-novel-body">
+    <div class="book-scene">
+        <div class="book-stand">
+            <section class="book-card closed-book" id="upload-menu">
+                <div class="book-cover-content">
+                    <p class="eyebrow">Chapter One</p>
+                    <h1>Begin your study tale</h1>
+                    <p class="hero-copy">Place a sheet of notes inside this velvet-covered book and watch the story open into a quiz.</p>
+                    <label class="dropzone" for="image-picker">
+                        <span class="dropzone-placeholder">
+                            <span class="dropzone-title">Choose your study image</span>
+                            <span class="dropzone-subtitle">PNG, JPG, or WEBP</span>
+                        </span>
+                        <img id="preview" alt="Your image will appear here" src="" style="display:none;" />
+                        <input type="file" id="image-picker" name="study_sheet" accept="image/*">
+                    </label>
+                    <button id="submit-btn" class="primary-btn" disabled>Open the book</button>
+                    <a class="text-link" href="index.html">Visit the gacha room</a>
+                </div>
+            </section>
 
-    <div id="quiz-menu">
-        <button id="ready-btn">ready???</button>
-        <div id="question-header">[insert question]</div>
-        <div id="answer-choices">
-            <button data-id="1">Answer 1</button>
-            <button data-id="2">Answer 2</button>
-            <button data-id="3">Answer 3</button>
-            <button data-id="4">Answer 4</button>
+            <section class="book-card open-book" id="quiz-menu" style="display:none;">
+                <div class="book-page left-page">
+                    <div class="page-content">
+                        <p class="eyebrow">Chapter Two</p>
+                        <h2>Questions bloom on the page</h2>
+                        <p class="hero-copy">Each correct answer adds a bright little spark to your pull collection.</p>
+                        <div class="stats-card">
+                            <span class="stats-label">Pulls earned</span>
+                            <div class="stats-value" id="pull-count-display">0</div>
+                            <span class="stats-subtitle">from your answers</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-spine"></div>
+                <div class="book-page right-page">
+                    <div class="page-content">
+                        <div class="quiz-status-row">
+                            <button id="ready-btn" class="primary-btn">Turn the page</button>
+                            <div class="progress-pill" id="question-progress">Waiting to begin</div>
+                        </div>
+                        <div id="question-header" class="question-header">Your first question will appear here.</div>
+                        <div id="answer-choices" class="answer-grid">
+                            <button data-id="1">Answer 1</button>
+                            <button data-id="2">Answer 2</button>
+                            <button data-id="3">Answer 3</button>
+                            <button data-id="4">Answer 4</button>
+                        </div>
+                        <p id="quiz-feedback" class="quiz-feedback">Choose carefully and earn a pull.</p>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </body>

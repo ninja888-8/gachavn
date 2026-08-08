@@ -1,4 +1,5 @@
 import { pull } from "./canvas.ts";
+import { getEarnedPulls, renderPullCount, spendPulls } from "./pull-count.js";
 
 type Rarity = 'Common' | 'Rare' | 'Legendary';
 
@@ -6,6 +7,8 @@ interface GachaItem {
     name: string;
     rarity: Rarity;
 }
+
+const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDivElement | null;
 
 // will expand later
 const gachaPool: GachaItem[] = [
@@ -63,12 +66,26 @@ function printResults(pulls: GachaItem[]): void {
 
 }
 
+function updatePullDisplay() {
+    renderPullCount(pullCountDisplay);
+}
+
 function makeGachaPull(count = 1): void {
+    const availablePulls = getEarnedPulls();
+
+    if (availablePulls < count) {
+        alert(`You need ${count} pull${count > 1 ? 's' : ''} to make that pull.`);
+        return;
+    }
+
     const gacha = new Gacha();
     const results = gacha.pull(count);
-    pull(count)
+    spendPulls(count);
+    updatePullDisplay();
+    pull(count);
     printResults(results);
 }
 
 document.getElementById('gamble1')?.addEventListener('click', makeGachaPull.bind(null, 1));
 document.getElementById('gamble10')?.addEventListener('click', makeGachaPull.bind(null, 10));
+updatePullDisplay();
