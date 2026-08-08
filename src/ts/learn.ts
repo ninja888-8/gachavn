@@ -25,10 +25,8 @@ function clearAnswerFeedback() {
 
 function markAnswerButton(button: HTMLButtonElement, correct: boolean) {
     button.classList.add(correct ? CORRECT_CLASS : WRONG_CLASS);
-    // Inline fallback so the feedback is visible even without extra CSS;
-    // the classes above let you override the look in your stylesheet.
     button.style.backgroundColor = correct ? '#3ddc84' : '#e5484d';
-    button.style.color = '#fff';
+    button.style.color = '#ffffff';
     button.style.borderColor = correct ? '#2fb86b' : '#c73a40';
 }
 
@@ -84,8 +82,6 @@ function answerQuestion(buttonId: number) {
         const options = llmResponse[currentQuestionIndex].options;
         const isCorrect = options[buttonId - 1] === correctAnswer;
 
-        // Lock the buttons while feedback is showing so a second click
-        // can't skip past it or double-count an answer.
         answerChoices.forEach((button) => { button.disabled = true; });
 
         const selectedButton = answerChoices[buttonId - 1];
@@ -111,22 +107,24 @@ function answerQuestion(buttonId: number) {
             clearAnswerFeedback();
             answerChoices.forEach((button) => { button.disabled = false; });
 
-            if (currentQuestionIndex < llmResponse.length - 1) {
-                currentQuestionIndex++;
-                initQuestion(currentQuestionIndex);
-            } else {
-                questionHeader.textContent = "You've completed all the questions!";
-                if (answerChoicesContainer) {
-                    answerChoicesContainer.style.display = 'none';
+            if (llmResponse) {
+                if (currentQuestionIndex < llmResponse.length - 1) {
+                    currentQuestionIndex++;
+                    initQuestion(currentQuestionIndex);
+                } else {
+                    questionHeader.textContent = "You've completed all the questions!";
+                    if (answerChoicesContainer) {
+                        answerChoicesContainer.style.display = 'none';
+                    }
+                    answerChoices.forEach(button => {
+                        button.style.display = 'none';
+                    });
+                    readyBtn.style.display = 'none';
+                    if (questionProgress) {
+                        questionProgress.textContent = 'Quiz complete';
+                    }
+                    updatePullSummary('You finished the set. Head to the gacha room to spend your pulls.');
                 }
-                answerChoices.forEach(button => {
-                    button.style.display = 'none';
-                });
-                readyBtn.style.display = 'none';
-                if (questionProgress) {
-                    questionProgress.textContent = 'Quiz complete';
-                }
-                updatePullSummary('You finished the set. Head to the gacha room to spend your pulls.');
             }
         }, FEEDBACK_DELAY_MS);
     }
@@ -146,5 +144,3 @@ readyBtn?.addEventListener('click', () => initQuestion(currentQuestionIndex));
 answerChoices.forEach(button => {
     button.addEventListener('click', handleAnswerClick);
 });
-
-updatePullSummary('Upload a study sheet to begin.');
