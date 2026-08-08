@@ -11,6 +11,7 @@
         "canvas.ts",
         "connection.ts",
         "learn.ts",
-        "pull-count.ts"
+        "pull-count.ts",
+        "menu.ts"
     ]
 }

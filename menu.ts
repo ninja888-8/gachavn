@@ -79,18 +79,6 @@ function step(now: number) {
 
 requestAnimationFrame(step);
 
-// button starry hover effect for the primary button
-const primaryBtn = document.querySelector('.btn.primary') as HTMLElement | null;
-if (primaryBtn) {
-    primaryBtn.addEventListener('mouseenter', () => {
-        primaryBtn.classList.add('dim');
-        spawnButtonStars(primaryBtn, Math.round(6 * Math.random()) + 8);
-    });
-    primaryBtn.addEventListener('mouseleave', () => {
-        primaryBtn.classList.remove('dim');
-    });
-}
-
 function spawnButtonStars(btn: HTMLElement, count = 8) {
     for (let i = 0; i < count; i++) {
         const s = document.createElement('span');
@@ -130,17 +118,6 @@ function spawnButtonStars(btn: HTMLElement, count = 8) {
     }
 }
 
-function resize() {
-    if (canvas) {
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = Math.floor(window.innerWidth * dpr);
-        canvas.height = Math.floor(window.innerHeight * dpr);
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-}
-
 function initStars() {
     stars.length = 0;
     for (let i = 0; i < STAR_COUNT; i++) {
@@ -157,6 +134,47 @@ function initStars() {
     }
 }
 
+function resize() {
+    if (canvas) {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = Math.floor(window.innerWidth * dpr);
+        canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    initStars();
+}
+
+function newGame() {
+    window.location.href = 'novel.html';
+}
+
+// function continueGame() {
+//     window.location.href = 'novel.html';
+// }
+
+function visitGallery() {
+    window.location.href = 'gallery.html';
+}
+
+// button starry hover effect for the primary button
+const primaryBtn = document.querySelector('.btn.primary') as HTMLElement | null;
+if (primaryBtn) {
+    primaryBtn.addEventListener('mouseenter', () => {
+        primaryBtn.classList.add('dim');
+        spawnButtonStars(primaryBtn, Math.round(6 * Math.random()) + 8);
+    });
+    primaryBtn.addEventListener('mouseleave', () => {
+        primaryBtn.classList.remove('dim');
+    });
+}
+
 initStars();
 window.addEventListener('resize', resize);
 resize();
+
+document.getElementById('new-game')?.addEventListener('click', newGame);
+// document.getElementById('continue-game')?.addEventListener('click', continueGame);
+document.getElementById('gallery')?.addEventListener('click', visitGallery);
