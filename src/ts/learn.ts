@@ -3,6 +3,7 @@ import { getEarnedPulls, incrementEarnedPulls, renderPullCount } from './pull-co
 
 const quizMenu = document.getElementById('quiz-menu') as HTMLDivElement;
 const questionHeader = document.getElementById('question-header') as HTMLDivElement;
+const answerChoicesContainer = document.getElementById('answer-choices') as HTMLDivElement | null;
 const answerChoices = document.querySelectorAll('#answer-choices button') as NodeListOf<HTMLButtonElement>;
 const readyBtn = document.getElementById('ready-btn') as HTMLButtonElement;
 const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDivElement | null;
@@ -33,6 +34,10 @@ function initQuestion(questionIndex: number = 0) {
 
         questionHeader.textContent = llmResponse[questionIndex].question;
         const choices = llmResponse[questionIndex].options;
+
+        if (answerChoicesContainer) {
+            answerChoicesContainer.style.display = '';
+        }
 
         answerChoices.forEach((button, index) => {
             button.style.display = 'block';
@@ -66,6 +71,9 @@ function answerQuestion(buttonId: number) {
             initQuestion(currentQuestionIndex);
         } else {
             questionHeader.textContent = "You've completed all the questions!";
+            if (answerChoicesContainer) {
+                answerChoicesContainer.style.display = 'none';
+            }
             answerChoices.forEach(button => {
                 button.style.display = 'none';
             });

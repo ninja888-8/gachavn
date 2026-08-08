@@ -28,6 +28,12 @@ function watchHeader() {
 
     let lastText = header.textContent;
 
+    // Play the typewriter effect on the initial dialogue too, not just
+    // on subsequent text changes.
+    if (lastText && lastText.trim().length > 0) {
+        typewrite(header, lastText);
+    }
+
     const observer = new MutationObserver(() => {
         const newText = header.textContent;
         if (newText !== lastText && !header.classList.contains("typing")) {
