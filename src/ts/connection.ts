@@ -3,6 +3,7 @@ import { QuestionWrapper, setLlmResponse } from './state.ts';
 
 /* make api requests to llm.py */
 const uploadMenu = document.getElementById('upload-menu') as HTMLDivElement;
+const loadingMenu = document.getElementById('loading-menu') as HTMLDivElement;
 const imageInput = document.getElementById('image-picker') as HTMLInputElement;
 const preview = document.getElementById('preview') as HTMLImageElement;
 const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
@@ -19,6 +20,9 @@ async function sendImageToBackend() {
     formData.append('file', file);
 
     try {
+        toggleUploadMenu(); // hide upload menu
+        toggleLoadingMenu(); // show loading menu
+
         const response = await fetch('http://127.0.0.1:8000/api/questions', {
             method: 'POST',
             body: formData
@@ -110,7 +114,7 @@ async function sendImageToBackend() {
         setLlmResponse(wrappedResponse);
         console.log('Response from backend:', wrappedResponse);
 
-        toggleUploadMenu(); // hide upload menu
+        toggleLoadingMenu(); // hide loading menu
         toggleQuizMenu(); // show quiz menu
 
     } catch (error) {
@@ -118,6 +122,12 @@ async function sendImageToBackend() {
 
         // display error message to user
         alert('An error occurred while processing your request. Please try again.');
+    }
+}
+
+function toggleLoadingMenu() {
+    if (loadingMenu) {
+        loadingMenu.style.display = loadingMenu.style.display === 'none' ? 'block' : 'none';
     }
 }
 

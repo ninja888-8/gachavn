@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gacha Study Quest</title>
+    <title>gachavn</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -29,20 +29,17 @@
                 </div>
             </section>
 
-            <section class="book-card open-book" id="quiz-menu" style="display:none;">
-                <div class="book-page left-page">
-                    <div class="page-content">
-                        <p class="eyebrow">Chapter Two</p>
-                        <h2>Questions bloom on the page</h2>
-                        <p class="hero-copy">Each correct answer adds a bright little spark to your pull collection.</p>
-                        <div class="stats-card">
-                            <span class="stats-label">Pulls earned</span>
-                            <div class="stats-value" id="pull-count-display">0</div>
-                            <span class="stats-subtitle">from your answers</span>
-                        </div>
+            <section class="book-card closed-book" id="loading-menu" style="display:none;">
+                <div class="book-cover-content loading-state">
+                    <div class="loading-spinner" aria-hidden="true"></div>
+                    <div>
+                        <h1>Loading ... :)</h1>
+                        <p class="loading-text">Generating questions, please wait!</p>
                     </div>
                 </div>
-                <div class="book-spine"></div>
+            </section>
+
+            <section class="book-card open-book" id="quiz-menu" style="display:none;">
                 <div class="book-page right-page">
                     <div class="page-content">
                         <div class="question-card">
