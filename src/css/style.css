@@ -478,7 +478,6 @@ button:disabled {
 }
 
 .right-page .page-content::after {
-    content: "History   Skip   Auto   Save   Load   Settings";
     display: block;
     margin-top: 14px;
     padding-top: 10px;

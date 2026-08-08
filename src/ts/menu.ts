@@ -10,12 +10,15 @@ let last = performance.now();
 let shooting: { x: number, y: number, len: number, angle: number, speed: number } | null = null;
 
 function spawnShooting() {
+    const rand = Math.random() < 0.5;
+    
+    const x = rand ? -120 : window.innerWidth + 120;
+    const y = Math.random() * window.innerHeight * 0.6 + window.innerHeight * 0.2;
+    const len = Math.random() * 320 + 180;
+    const angle = rand ? Math.random() * 0.25 + 0.05 : Math.PI - (Math.random() * 0.25 + 0.05);
+    const speed = Math.random() * 12 + 6;
     shooting = { 
-        x: -120, 
-        y: Math.random() * window.innerHeight * 0.45 + 20, 
-        len: Math.random() * 320 + 180, 
-        angle: Math.random() * 0.25 + 0.05, 
-        speed: Math.random() * 12 + 6
+        x, y, len, angle, speed
     };
 }
 
@@ -71,7 +74,7 @@ function step(now: number) {
         ctx.fillStyle = 'white'; 
         ctx.arc(shooting.x, shooting.y, 3.2, 0, Math.PI * 2); 
         ctx.fill();
-        if (shooting.x - shooting.len > window.innerWidth + 200) shooting = null;
+        if (shooting.x - shooting.len > window.innerWidth + 200 || shooting.x + shooting.len < -200) shooting = null;
     }
 
     requestAnimationFrame(step);
