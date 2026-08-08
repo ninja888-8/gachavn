@@ -1,18 +1,27 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-import base64
+from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
 app = FastAPI()
 
+# allowed origins
+origins = [
+    "http://localhost:5500",    # local port
+    "http://127.0.0.1:5500",
+    
+    # insert production frontend URL here
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 
@@ -20,18 +29,18 @@ class ResponseData(BaseModel):
     response: str | None
 
 # requires GEMINI_API_KEY environment variable to be set in .env
+load_dotenv()
 client = genai.Client()
 
 @app.post("/api/questions")
-def generate_questions():
-    with open("sample.jpg", "rb") as image_file:
-        image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
-
+async def generate_questions(file: UploadFile = File(...)):
+    image_bytes = await file.read()
+    
     response = client.models.generate_content(
-        model='gemini-2.5-flash',
+        model='gemini-3.5-flash-lite',
         contents=[
             types.Part.from_bytes(
-                data=base64.b64decode(image_base64),
+                data=image_bytes,
                 mime_type='image/jpeg',
             ),
             "Using the information provided in this study sheet, generate proper review questions that can be used for studying (multiple choice) and output the results as JSON."
@@ -44,15 +53,14 @@ def generate_questions():
     return ResponseData(response=response.text)
     
 @app.post("/api/summary")
-def generate_summary():
-    with open("sample.jpg", "rb") as image_file:
-        image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
+async def generate_summary(file: UploadFile = File(...)):
+    image_bytes = await file.read()
 
     response = client.models.generate_content(
-        model='gemini-2.5-flash',
+        model='gemini-3.5-flash-lite',
         contents=[
             types.Part.from_bytes(
-                data=base64.b64decode(image_base64),
+                data=image_bytes,
                 mime_type='image/jpeg',
             ),
             "Using the information provided in this study sheet, generate a proper summary that can be used for studying and output the results as JSON."
