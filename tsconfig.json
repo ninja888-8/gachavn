@@ -9,6 +9,7 @@
     "files": [
         "gacha.ts",
         "canvas.ts",
-        "connection.ts"
+        "connection.ts",
+	    "learn.ts"
     ]
 }
