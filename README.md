@@ -1,7 +1,15 @@
 # gachavn
 gacha visual novel
 
-create and enter python virtual environment
+first install typescript
+
+``` npm install typescript ```
+
+and compile typescript into javascript
+
+``` npx tsc ```
+
+create and enter python virtual environment (for windows powershell, replace the second line with .venv\Scripts\Activate.ps1)
 ``` 
 python -m venv .venv 
 source .venv/bin/activate
