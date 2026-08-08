@@ -1,25 +1,11 @@
-import { toggleQuizMenu } from './learn.js';
+import { toggleQuizMenu } from './learn.ts';
+import { QuestionWrapper, setLlmResponse } from './state.ts';
 
 /* make api requests to llm.py */
 const uploadMenu = document.getElementById('upload-menu') as HTMLDivElement;
 const imageInput = document.getElementById('image-picker') as HTMLInputElement;
 const preview = document.getElementById('preview') as HTMLImageElement;
 const submitBtn = document.getElementById('submit-btn') as HTMLButtonElement;
-
-class QuestionWrapper {
-    constructor(
-        public question: string = '',
-        public options: string[] = [],
-        public answer: string = ''
-    ) {
-        this.question = question;
-        this.options = [ ...options ];
-        this.answer = answer;
-    }
-}
-
-let llmResponse: QuestionWrapper[] | null = null;
-export { llmResponse, QuestionWrapper };
 
 async function sendImageToBackend() {
     const file = imageInput.files?.[0];
@@ -121,8 +107,8 @@ async function sendImageToBackend() {
 
         const wrappedResponse = answer.map((item: any) => new QuestionWrapper(item.question, item.options, item.answer));
 
-        llmResponse = wrappedResponse; // store the response for use in next screen
-        console.log('Response from backend:', llmResponse);
+        setLlmResponse(wrappedResponse);
+        console.log('Response from backend:', wrappedResponse);
 
         toggleUploadMenu(); // hide upload menu
         toggleQuizMenu(); // show quiz menu

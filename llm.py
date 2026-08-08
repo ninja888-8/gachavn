@@ -11,8 +11,8 @@ app = FastAPI()
 
 # allowed origins
 origins = [
-    "http://localhost:5500",    # local port
-    "http://127.0.0.1:5500",
+    "http://localhost:5173",    # local port
+    "http://127.0.0.1:5173",
     
     # insert production frontend URL here
 ]

@@ -1,17 +1,18 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "rewriteRelativeImportExtensions": true,
-        "allowImportingTsExtensions": true,
-        "module": "nodenext",
-        "moduleResolution": "nodenext"
-    },
-    "files": [
-        "gacha.ts",
-        "canvas.ts",
-        "connection.ts",
-        "learn.ts",
-        "pull-count.ts",
-        "menu.ts"
-    ]
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl": "./src"
+  },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

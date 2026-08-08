@@ -1,5 +1,5 @@
-import { pull } from "./canvas.ts";
-import { getEarnedPulls, renderPullCount, spendPulls } from "./pull-count.js";
+import { pull } from './canvas.ts';
+import { getEarnedPulls, renderPullCount, spendPulls } from './pull-count.ts';
 
 type Rarity = 'Common' | 'Rare' | 'Legendary';
 

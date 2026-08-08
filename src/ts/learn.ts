@@ -1,5 +1,5 @@
-import { llmResponse } from './connection.js';
-import { getEarnedPulls, incrementEarnedPulls, renderPullCount } from './pull-count.js';
+import { llmResponse } from './state.ts';
+import { getEarnedPulls, incrementEarnedPulls, renderPullCount } from './pull-count.ts';
 
 const quizMenu = document.getElementById('quiz-menu') as HTMLDivElement;
 const questionHeader = document.getElementById('question-header') as HTMLDivElement;

@@ -1,6 +1,6 @@
-import { GachaItem } from "./gacha.ts";
+import type { GachaItem } from './gacha.ts';
 
-let canvas = document.getElementById("canvas") as HTMLCanvasElement;
+let canvas = document.getElementById('canvas') as HTMLCanvasElement;
 let ctx = canvas.getContext("2d", {alpha: false}) as CanvasRenderingContext2D;
 
 let pullControls = Array.from((document.getElementById("gamble-controls") as Element).children) as HTMLButtonElement[];
@@ -8,10 +8,10 @@ let pullControls = Array.from((document.getElementById("gamble-controls") as Ele
 let w: number, h: number;
 
 let starSmall = new Image();
-starSmall.src = "small-star.png";
+starSmall.src = new URL('../images/small-star.png', import.meta.url).href;
 
 let star = new Image();
-star.src = "star-med.png";
+star.src = new URL('../images/star-med.png', import.meta.url).href;
 
 let starPos: number[][] = [];
 let starGrow = true;
@@ -26,6 +26,7 @@ let trailColor = "rgb(123, 123, 123)";
 let linePos: number[][] = [];
 
 let flair = new Image();
+flair.src = new URL('../images/common-flair.png', import.meta.url).href;
 let highestRarity = "Common";
 
 let raf: number;
@@ -152,12 +153,12 @@ function draw() {
         meteorPos += meteorVel / 60;
         if (meteorFrame == 59) {
             meteorAccel = -meteorAccel;
-            if (highestRarity == "Rare") {
-                trailColor = "rgb(186, 19, 186)";
-                flair.src = "rare-flair.png";
-            } else if (highestRarity == "Legendary") {
-                trailColor = "rgb(237, 198, 57)";
-                flair.src = "legendary-flair.png";
+            if (highestRarity == 'Rare') {
+                trailColor = 'rgb(186, 19, 186)';
+                flair.src = new URL('../images/rare-flair.png', import.meta.url).href;
+            } else if (highestRarity == 'Legendary') {
+                trailColor = 'rgb(237, 198, 57)';
+                flair.src = new URL('../images/legendary-flair.png', import.meta.url).href;
             }
         }
         meteorVel += meteorAccel / 60;
