@@ -7,6 +7,16 @@ const QUIZ_MENU_SELECTOR = "#quiz-menu";
 const ANSWER_BUTTON_SELECTOR = "#answer-choices button";
 const CHAR_INTERVAL_MS = 18;
 
+const INTRO_LINES: string[] = [
+    "Hi classmate! How's studying going? I've had a lot of problems with a specific part of this unit, so I'll quiz you on it!",
+    "Good morning! How are you doing? I've been reviewing for this test all day. Here, I'll quiz you!",
+    "Good afternoon! Are you doing well? I hope you've done lots of review for this upcoming test! I'll quiz you!",
+];
+
+function pickRandomIntroLine(): string {
+    return INTRO_LINES[Math.floor(Math.random() * INTRO_LINES.length)];
+}
+
 function setAnswerButtonsDisabled(disabled: boolean) {
     document.querySelectorAll<HTMLButtonElement>(ANSWER_BUTTON_SELECTOR).forEach((button) => {
         button.disabled = disabled;
@@ -49,9 +59,9 @@ function watchHeader() {
         const quizMenu = document.querySelector(QUIZ_MENU_SELECTOR) as HTMLElement | null;
         // If there's no #quiz-menu wrapper to wait on, just play immediately.
         const visible = quizMenu ? isVisible(quizMenu) : true;
-        if (visible && lastText && lastText.trim().length > 0) {
+        if (visible) {
             hasPlayedInitial = true;
-            typewrite(header, lastText);
+            typewrite(header, pickRandomIntroLine());
         }
     };
 

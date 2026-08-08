@@ -10,6 +10,28 @@ const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDi
 const questionProgress = document.getElementById('question-progress') as HTMLDivElement | null;
 const quizFeedback = document.getElementById('quiz-feedback') as HTMLDivElement | null;
 
+const FEEDBACK_DELAY_MS = 900;
+const CORRECT_CLASS = 'answer-correct';
+const WRONG_CLASS = 'answer-wrong';
+
+function clearAnswerFeedback() {
+    answerChoices.forEach((button) => {
+        button.classList.remove(CORRECT_CLASS, WRONG_CLASS);
+        button.style.backgroundColor = '';
+        button.style.color = '';
+        button.style.borderColor = '';
+    });
+}
+
+function markAnswerButton(button: HTMLButtonElement, correct: boolean) {
+    button.classList.add(correct ? CORRECT_CLASS : WRONG_CLASS);
+    // Inline fallback so the feedback is visible even without extra CSS;
+    // the classes above let you override the look in your stylesheet.
+    button.style.backgroundColor = correct ? '#3ddc84' : '#e5484d';
+    button.style.color = '#fff';
+    button.style.borderColor = correct ? '#2fb86b' : '#c73a40';
+}
+
 let currentQuestionIndex = 0;
 let earnedPulls = getEarnedPulls();
 
@@ -43,6 +65,7 @@ function initQuestion(questionIndex: number = 0) {
             button.style.display = 'block';
             button.textContent = choices[index];
         });
+        clearAnswerFeedback();
 
         if (questionProgress) {
             questionProgress.textContent = `Question ${questionIndex + 1} of ${llmResponse.length}`;
@@ -57,32 +80,55 @@ function initQuestion(questionIndex: number = 0) {
 
 function answerQuestion(buttonId: number) {
     if (llmResponse) {
-        const isCorrect = llmResponse[currentQuestionIndex].options[buttonId - 1] === llmResponse[currentQuestionIndex].answer;
+        const correctAnswer = llmResponse[currentQuestionIndex].answer;
+        const options = llmResponse[currentQuestionIndex].options;
+        const isCorrect = options[buttonId - 1] === correctAnswer;
+
+        // Lock the buttons while feedback is showing so a second click
+        // can't skip past it or double-count an answer.
+        answerChoices.forEach((button) => { button.disabled = true; });
+
+        const selectedButton = answerChoices[buttonId - 1];
+        if (selectedButton) {
+            markAnswerButton(selectedButton, isCorrect);
+        }
+        if (!isCorrect) {
+            const correctIndex = options.indexOf(correctAnswer);
+            const correctButton = correctIndex >= 0 ? answerChoices[correctIndex] : null;
+            if (correctButton) {
+                markAnswerButton(correctButton, true);
+            }
+        }
 
         if (isCorrect) {
             incrementEarnedPulls();
             updatePullSummary('Correct! Your pull stash just grew.');
         } else {
-            updatePullSummary(`Not quite. The correct answer was: ${llmResponse[currentQuestionIndex].answer}`);
+            updatePullSummary(`Not quite. The correct answer was: ${correctAnswer}`);
         }
 
-        if (currentQuestionIndex < llmResponse.length - 1) {
-            currentQuestionIndex++;
-            initQuestion(currentQuestionIndex);
-        } else {
-            questionHeader.textContent = "You've completed all the questions!";
-            if (answerChoicesContainer) {
-                answerChoicesContainer.style.display = 'none';
+        setTimeout(() => {
+            clearAnswerFeedback();
+            answerChoices.forEach((button) => { button.disabled = false; });
+
+            if (currentQuestionIndex < llmResponse.length - 1) {
+                currentQuestionIndex++;
+                initQuestion(currentQuestionIndex);
+            } else {
+                questionHeader.textContent = "You've completed all the questions!";
+                if (answerChoicesContainer) {
+                    answerChoicesContainer.style.display = 'none';
+                }
+                answerChoices.forEach(button => {
+                    button.style.display = 'none';
+                });
+                readyBtn.style.display = 'none';
+                if (questionProgress) {
+                    questionProgress.textContent = 'Quiz complete';
+                }
+                updatePullSummary('You finished the set. Head to the gacha room to spend your pulls.');
             }
-            answerChoices.forEach(button => {
-                button.style.display = 'none';
-            });
-            readyBtn.style.display = 'none';
-            if (questionProgress) {
-                questionProgress.textContent = 'Quiz complete';
-            }
-            updatePullSummary('You finished the set. Head to the gacha room to spend your pulls.');
-        }
+        }, FEEDBACK_DELAY_MS);
     }
     else {
         console.log("failed to fetch llmResponse from connection.js");
