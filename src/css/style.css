@@ -101,7 +101,7 @@ body {
 }
 
 .open-book {
-    width: 100%;
+    width: 90%;
     min-height: auto;
     display: flex;
     flex-direction: column;
@@ -446,30 +446,25 @@ button:disabled {
 }
 
 .dialogue-row {
-    position: relative;
-    /* reserve room on each side for the character art to stand in */
-    padding: 0 190px;
-    min-height: 40px;
+    min-height: 8vh;
 }
 
 .sprite-slot {
     position: absolute;
-    bottom: -18px;
-    width: 170px;
-    height: 260px;
+    width: 20vw;
+    bottom: 0;
     object-fit: contain;
-    object-position: bottom;
     z-index: 3;
     filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.45));
     pointer-events: none;
 }
 
 .sprite-slot-left {
-    left: -100px;
+    left: -20vw;
 }
 
 .sprite-slot-right {
-    right: -100px;
+    right: -20vw;
 }
 
 .question-header {
@@ -482,7 +477,7 @@ button:disabled {
     background: rgba(20, 10, 16, 0.45);
     border-radius: 14px;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-    position: relative;
+    margin-top: 15px;
     z-index: 1;
 }
 
@@ -577,7 +572,7 @@ canvas {
     flex-wrap: wrap;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 60vw) {
     .open-book {
         flex-direction: column;
     }
@@ -615,11 +610,5 @@ canvas {
 
     .dialogue-row {
         padding: 0 74px;
-    }
-
-    .sprite-slot {
-        width: 64px;
-        height: 98px;
-        bottom: -8px;
     }
 }
