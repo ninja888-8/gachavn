@@ -529,7 +529,6 @@ button:disabled {
 
 .gacha-backdrop {
     min-height: 100vh;
-    padding: 24px;
     position: relative;
 }
 
@@ -602,10 +601,6 @@ canvas {
 
     .answer-grid {
         grid-template-columns: 1fr;
-    }
-
-    .gacha-backdrop {
-        padding: 14px;
     }
 
     .dialogue-row {
