@@ -43,7 +43,7 @@ async def generate_questions(file: UploadFile = File(...)):
                 data=image_bytes,
                 mime_type='image/jpeg',
             ),
-            "Using the information provided in this study sheet, generate proper review questions that can be used for studying (multiple choice) and output the results as JSON."
+            "Using the information provided in this study sheet, generate proper review questions that can be used for studying (multiple choice) and output the results as JSON. Make sure the key values are 'question', 'options', and 'answer'. The 'options' value should be an array of strings, and the 'answer' value should be a string that is exactly one of the options."
         ],
         config=types.GenerateContentConfig(
             response_mime_type="application/json",

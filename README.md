@@ -9,7 +9,7 @@ source .venv/bin/activate
 
 inside virtual env,
 
-``` pip install requirements.txt ```
+``` pip install -r requirements.txt ```
 
 and also make sure to set your gemini API key (navigate to https://aistudio.google.com/api-keys)
 
