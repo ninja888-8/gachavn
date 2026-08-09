@@ -46,7 +46,7 @@ function updatePullSummary(message?: string) {
     renderPullCount(pullCountDisplay);
 
     if (quizFeedback) {
-        quizFeedback.textContent = message ?? `Correct answers add pulls. Your stash is now ${earnedPulls}.`;
+        quizFeedback.textContent = message ?? `Correct answers add pulls. You now have ${earnedPulls}.`;
     }
 }
 

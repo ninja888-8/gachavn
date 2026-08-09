@@ -1,6 +1,14 @@
 # gachavn
 gacha visual novel!!!
 
+## screenshots
+![homepage example](./homepage.png)
+
+![quiz example](./vn.png)
+
+## web playable demo
+A demo of the game is available online at https://gachavn-frontend.onrender.com/.
+
 ### backend setup
 create and enter python virtual environment (for windows powershell, replace the second line with .venv\Scripts\Activate.ps1)
 ``` 
