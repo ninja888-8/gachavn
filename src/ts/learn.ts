@@ -10,6 +10,7 @@ const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement;
 const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDivElement | null;
 const questionProgress = document.getElementById('question-progress') as HTMLDivElement | null;
 const quizFeedback = document.getElementById('quiz-feedback') as HTMLDivElement | null;
+const leftSprite = document.getElementById('sprite-left') as HTMLImageElement | null;
 
 const FEEDBACK_DELAY_MS = 900;
 const CORRECT_CLASS = 'answer-correct';
@@ -77,7 +78,17 @@ function initQuestion(questionIndex: number = 0) {
     }
 }
 
+function animateLeftSpriteOnChoice() {
+    if (!leftSprite) return;
+    leftSprite.classList.remove('choice-animate');
+    void leftSprite.offsetWidth;
+    leftSprite.classList.add('choice-animate');
+    window.setTimeout(() => leftSprite.classList.remove('choice-animate'), 800);
+}
+
 function answerQuestion(buttonId: number) {
+    animateLeftSpriteOnChoice();
+
     if (llmResponse) {
         const correctAnswer = llmResponse[currentQuestionIndex].answer;
         const options = llmResponse[currentQuestionIndex].options;

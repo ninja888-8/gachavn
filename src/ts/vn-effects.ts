@@ -4,6 +4,8 @@ const ANSWER_BUTTON_SELECTOR = "#answer-choices button";
 const NEXT_BUTTON_SELECTOR = "next-btn";
 const CHAR_INTERVAL_MS = 18;
 
+const rightSprite = document.getElementById('sprite-right') as HTMLImageElement | null;
+
 const INTRO_LINES: string[] = [
     "Hi classmate! How's studying going? I've had a lot of problems with a specific part of this unit, so I'll quiz you on it!",
     "Good morning! How are you doing? I've been reviewing for this test all day. Here, I'll quiz you!",
@@ -24,8 +26,19 @@ function setButtonsDisabled(disabled: boolean) {
     }
 }
 
+function startRightSpriteAnimation() {
+    if (!rightSprite) return;
+    rightSprite.classList.add('dialogue-animate');
+}
+
+function stopRightSpriteAnimation() {
+    if (!rightSprite) return;
+    rightSprite.classList.remove('dialogue-animate');
+}
+
 function typewrite(el: HTMLElement, text: string) {
     el.classList.add("typing");
+    startRightSpriteAnimation();
     setButtonsDisabled(true);
     el.textContent = "";
     let i = 0;
@@ -37,6 +50,7 @@ function typewrite(el: HTMLElement, text: string) {
             requestAnimationFrame(() => setTimeout(tick, CHAR_INTERVAL_MS));
         } else {
             el.classList.remove("typing");
+            stopRightSpriteAnimation();
             setButtonsDisabled(false);
         }
     };
