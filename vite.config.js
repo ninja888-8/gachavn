@@ -12,7 +12,8 @@ export default defineConfig({
       input: {
         menu: resolve(__dirname, 'src/menu.html'),
         novel: resolve(__dirname, 'src/novel.html'),
-        gacha: resolve(__dirname, 'src/gacha.html')
+        gacha: resolve(__dirname, 'src/gacha.html'),
+        gallery: resolve(__dirname, 'src/gallery.html')
       }
     }
   },
