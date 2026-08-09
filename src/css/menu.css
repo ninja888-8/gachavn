@@ -116,9 +116,16 @@ body {
     transition: transform .7s cubic-bezier(.2, .9, .2, 1), opacity .6s linear
 }
 
-@keyframes btn-star-twinkle{
-    from{ opacity:1; transform: scale(1) }
-    to{ opacity:0.5; transform: scale(0.6) }
+@keyframes btn-star-twinkle {
+    from {
+        opacity: 1;
+        transform: scale(1)
+    }
+
+    to {
+        opacity: 0.5;
+        transform: scale(0.6)
+    }
 }
 
 

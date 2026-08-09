@@ -1,100 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Gallery</title>
-  <style>
-    :root {
-      color-scheme: dark;
-      font-family: "Trebuchet MS", Arial, sans-serif;
-      background: #060d1f;
-      color: #f4f0ff;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: radial-gradient(circle at top, #142a54 0%, #060d1f 65%);
-      padding: 2rem;
-      box-sizing: border-box;
-    }
-
-    .page {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
-
-    .back-link {
-      color: #fff;
-      text-decoration: none;
-      padding: 0.7rem 1rem;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 999px;
-      background: rgba(255,255,255,0.08);
-    }
-
-    .back-link:hover {
-      background: rgba(255,255,255,0.16);
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 1.25rem;
-    }
-
-    .gallery-card {
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.16);
-      border-radius: 16px;
-      padding: 1rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      min-height: 320px;
-    }
-
-    .gallery-card img {
-      width: 100%;
-      height: 220px;
-      object-fit: contain;
-      border-radius: 10px;
-      display: block;
-      background: rgba(255,255,255,0.06);
-    }
-
-    .gallery-card p {
-      margin: 0;
-      font-size: 0.95rem;
-      color: #e9e4ff;
-      word-break: break-word;
-    }
-  </style>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Gallery</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <main class="page">
-    <div class="header">
-      <h1>Gallery</h1>
-      <a class="back-link" href="menu.html">Back to menu</a>
-    </div>
-    <section id="image-gallery" class="gallery-grid"></section>
-  </main>
 
-  <script type="module" src="./ts/gallery.ts"></script>
+<body class="gallery">
+    <main class="page">
+        <div class="header">
+            <h1>Gallery</h1>
+            <a class="back-link" href="menu.html">Back to menu</a>
+        </div>
+        <section id="image-gallery" class="gallery-grid"></section>
+    </main>
+
+    <script type="module" src="./ts/gallery.ts"></script>
 </body>
+
 </html>

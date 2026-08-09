@@ -1,4 +1,5 @@
 @import 'gacha.css';
+@import 'gallery.css';
 @import 'menu.css';
 @import 'novel.css';
 
@@ -13,11 +14,12 @@ body {
     width: 100%;
     min-height: 100%;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #111827 0%, #0f172a 38%, #020617 100%);
 }
 
 body {
     color: #63324f;
-    overflow: none;
+    overflow-y: scroll;
 }
 
 .eyebrow {
