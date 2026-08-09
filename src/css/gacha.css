@@ -88,6 +88,27 @@ canvas {
     opacity: 0;
 }
 
+.pull-skip-btn {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    z-index: 5;
+    padding: 8px 22px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s;
+}
+
+.pull-skip-btn:hover {
+    background: rgba(0, 0, 0, 0.55);
+}
+
 #character-splash {
     position: relative;
     /* background-repeat: no-repeat;

@@ -125,7 +125,29 @@ export function showPull(results: GachaItem[]) {
     let splashArt = document.getElementById("character-splash") as HTMLDivElement;
     splashArt.style.display = "block";
 
+    let skipped = false;
+
+    const skipBtn = document.createElement("button");
+    skipBtn.type = "button";
+    skipBtn.className = "pull-skip-btn";
+    skipBtn.innerText = "Skip";
+    skipBtn.addEventListener("click", () => {
+        if (skipped) return;
+        skipped = true;
+        skipBtn.remove();
+        if (results.length == 10) {
+            listChars();
+        } else {
+            endPulls();
+        }
+    });
+    if (results.length > 1) {
+        pullOverlay.appendChild(skipBtn);
+    }
+
     function showSplash(id: number) {
+        if (skipped) return;
+
         let img = document.getElementById("image") as HTMLImageElement;
     
         let desc = document.getElementById("char-desc") as HTMLDivElement;
@@ -158,6 +180,8 @@ export function showPull(results: GachaItem[]) {
         }, 100);
 
         function nextSplash() {
+            if (skipped) return;
+
             img.removeEventListener("click", nextSplash);
             img.src = "";
             img.style.transition = "none";
@@ -176,6 +200,7 @@ export function showPull(results: GachaItem[]) {
         }
 
         setTimeout(() => {
+            if (skipped) return;
             img.addEventListener("click", nextSplash);
         }, 500);
     }
@@ -189,6 +214,8 @@ export function showPull(results: GachaItem[]) {
     };
 
     function listChars() {
+        skipBtn.remove();
+
         let pullList = document.getElementById("pull-list") as HTMLDivElement;
 
         pullList.innerHTML = "";
@@ -232,6 +259,8 @@ export function showPull(results: GachaItem[]) {
     }
 
     function endPulls() {
+        skipBtn.remove();
+
         splashArt.style.display = "none";
         pullOverlay.style.opacity = "0";
 
