@@ -14,13 +14,13 @@ const SELECTED_CHARACTER_KEY = 'gachavn-selected';
 const previousCharacterIndex = localStorage.getItem(SELECTED_CHARACTER_KEY);
 
 const characters = [
-    { name: 'Amy', src: 'images/amy.png' },
-    { name: 'Sparkle', src: 'images/sparkle.png' },
-    { name: 'Sparxie', src: 'images/sparxie.png' },
-    { name: 'D.Va', src: 'images/dva.png' },
-    { name: 'Columbina', src: 'images/columbina.png'},
-    { name: 'Ahri', src: 'images/ahri.png' },
-    { name: 'Yunyun', src: 'images/yunyun.png' },
+    { name: 'Amy', src: '../images/amy.png' },
+    { name: 'Sparkle', src: '../images/sparkle.png' },
+    { name: 'Sparxie', src: '../images/sparxie.png' },
+    { name: 'D.Va', src: '../images/dva.png' },
+    { name: 'Columbina', src: '../images/columbina.png'},
+    { name: 'Ahri', src: '../images/ahri.png' },
+    { name: 'Yunyun', src: '../images/yunyun.png' },
 ];
 
 if (previousCharacterIndex) {
