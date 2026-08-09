@@ -1,7 +1,7 @@
 import { toggleQuizMenu } from './learn.ts';
 import { QuestionWrapper, setLlmResponse } from './state.ts';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'https://gachavn.onrender.com';
+const API_BASE = (import.meta as any).env?.VITE_API_BASE || 'https://gachavn.onrender.com';
 
 /* make api requests to llm.py */
 const uploadMenu = document.getElementById('upload-menu') as HTMLDivElement;

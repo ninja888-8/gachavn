@@ -16,9 +16,12 @@ client = genai.Client()
 app = FastAPI()
 
 origins = [
-    "http://localhost:5173",    # local port
+    # local ports
+    "http://localhost:5173",
     "http://127.0.0.1:5173",
 ]
+
+# live hosting url if exists
 if FRONTEND_URL:
     origins.append(FRONTEND_URL)
 
