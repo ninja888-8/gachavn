@@ -1,4 +1,4 @@
-import { getCharacters } from "./characters";
+import { getCharacters, setCharacters } from "./characters";
 import { toggleUploadMenu } from "./connection.ts";
 
 const selectMenu = document.getElementById('select-menu') as HTMLDivElement | null;
@@ -14,9 +14,11 @@ const SELECTED_CHARACTER_KEY = 'gachavn-selected';
 const previousCharacterIndex = localStorage.getItem(SELECTED_CHARACTER_KEY);
 
 const characters = [
+    { name: 'Amy', src: 'images/amy.png' },
     { name: 'Sparkle', src: 'images/sparkle.png' },
     { name: 'Sparxie', src: 'images/sparxie.png' },
     { name: 'D.Va', src: 'images/dva.png' },
+    { name: 'Columbina', src: 'images/columbina.png'},
     { name: 'Ahri', src: 'images/ahri.png' },
     { name: 'Yunyun', src: 'images/yunyun.png' },
 ];
@@ -43,7 +45,11 @@ function renderCharacterOptions() {
     if (!characterGrid) return;
     characterGrid.innerHTML = '';
 
-    const unlockedCharacters = getCharacters();
+    let unlockedCharacters = getCharacters();
+    if (unlockedCharacters.length == 0) {
+        setCharacters(["Amy"]);
+        unlockedCharacters = getCharacters();
+    }
 
     characters.forEach((character, index) => {
         const option = document.createElement('button');
