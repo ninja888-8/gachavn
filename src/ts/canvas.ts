@@ -44,6 +44,102 @@ let pullResults: GachaItem[];
 
 let raf: number;
 
+type Star = { x: number, y: number, r: number, dx: number, dy: number, baseAlpha: number, phase: number, speed: number };
+const stars: Star[] = [];
+const STAR_COUNT = 80;
+
+let last = performance.now();
+// let shooting: { x: number, y: number, len: number, angle: number, speed: number } | null = null;
+
+// function spawnShooting() {
+//     const rand = Math.random() < 0.5;
+    
+//     const x = rand ? -120 : window.innerWidth + 120;
+//     const y = Math.random() * window.innerHeight * 0.6 + window.innerHeight * 0.2;
+//     const len = Math.random() * 320 + 180;
+//     const angle = rand ? Math.random() * 0.25 + 0.05 : Math.PI - (Math.random() * 0.25 + 0.05);
+//     const speed = Math.random() * 12 + 6;
+//     shooting = { 
+//         x, y, len, angle, speed
+//     };
+// }
+
+function step(now: number) {
+    const dt = Math.min(60, now - last) / 16.6667; last = now;
+    // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    // // gentle gradient sky glow
+    // ctx.fillStyle = "rgba(6,16,51,0.12)"; 
+    // ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
+
+    // draw stars with per-star twinkle (smooth sinusoidal variation)
+    const t = now / 1000;
+    for (const s of stars) {
+        s.x += s.dx * dt;
+        s.y += s.dy * dt;
+        const tw = 0.5 + 0.5 * Math.sin(t * s.speed + s.phase); // 0..1
+        const alpha = Math.max(0.05, s.baseAlpha * (0.5 + tw * 0.5));
+        ctx.beginPath();
+        ctx.globalAlpha = alpha;
+        ctx.fillStyle = 'white';
+        ctx.shadowBlur = s.r * 6;
+        ctx.shadowColor = 'rgba(255,240,200,0.85)';
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+    }
+    ctx.shadowBlur = 0; ctx.globalAlpha = 1;
+
+    // if (!shooting) spawnShooting();
+    // if (shooting) {
+    //     // movement using angle (vx, vy) so tail orientation matches movement
+    //     const vx = Math.cos(shooting.angle) * shooting.speed;
+    //     const vy = Math.sin(shooting.angle) * shooting.speed;
+    //     shooting.x += vx * dt;
+    //     shooting.y += vy * dt;
+
+    //     // draw trail along the movement vector (tail is opposite the direction of travel)
+    //     const tailX = shooting.x - Math.cos(shooting.angle) * shooting.len;
+    //     const tailY = shooting.y - Math.sin(shooting.angle) * shooting.len;
+    //     const grad = ctx.createLinearGradient(shooting.x, shooting.y, tailX, tailY);
+    //     grad.addColorStop(0, 'rgba(255,255,255,1)');
+    //     grad.addColorStop(1, 'rgba(255,200,120,0)');
+    //     ctx.strokeStyle = grad; 
+    //     ctx.lineWidth = 2.5 + Math.random() * 2.0; 
+    //     ctx.lineCap = 'round';
+    //     ctx.beginPath(); 
+    //     ctx.moveTo(shooting.x, shooting.y);
+    //     ctx.lineTo(tailX, tailY); 
+    //     ctx.stroke();
+
+    //     // head
+    //     ctx.beginPath(); 
+    //     ctx.fillStyle = 'white'; 
+    //     ctx.arc(shooting.x, shooting.y, 3.2, 0, Math.PI * 2); 
+    //     ctx.fill();
+    //     if (shooting.x - shooting.len > window.innerWidth + 200 || shooting.x + shooting.len < -200) shooting = null;
+    // }
+
+    // requestAnimationFrame(step);
+}
+
+// requestAnimationFrame(step);
+
+function initStars() {
+    stars.length = 0;
+    for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            r: Math.random() * 3.2 + 0.3,
+            dx: (Math.random() - 0.5) * 0.02,
+            dy: 0,
+            baseAlpha: Math.random() * 0.7 + 0.3,
+            phase: Math.random() * Math.PI * 2,
+            speed: Math.random() * 3 + 0.6
+        });
+    }
+}
+
 export function pull(n: number, results: GachaItem[]) {
     if (n == 10) {
         for (let i = 0; i < n; i++) {
@@ -91,6 +187,8 @@ function resizeCanvas() {
     meteorVel = meteorV0;
     meteorAccel = -meteorA0;
 
+    initStars();
+    
     cancelAnimationFrame(raf);
     draw();
 }
@@ -101,6 +199,8 @@ function draw() {
     ctx.globalAlpha = 1;
     ctx.fillStyle = "rgb(4, 5, 36)";
     ctx.fillRect(0, 0, w, h);
+
+    step(Date.now());
 
     if (starPos.length != 0) {
         // if (starOpacity > 0 && starGrow || ) {

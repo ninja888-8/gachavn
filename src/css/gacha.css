@@ -14,8 +14,8 @@
     box-shadow: 0 8px 20px rgba(152, 81, 109, 0.12);
 }
 
-.stats-label,
-.stats-subtitle {
+.stats-label/*,
+.stats-subtitle*/ {
     display: block;
     font-size: 0.9rem;
     color: #7f4b61;
