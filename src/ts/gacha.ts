@@ -1,5 +1,6 @@
 import { pull } from './canvas.ts';
 import { getEarnedPulls, renderPullCount, spendPulls } from './pull-count.ts';
+import { pullCharacters } from './characters.ts';
 
 type Rarity = 'Common' | 'Rare' | 'Legendary';
 
@@ -13,9 +14,11 @@ const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDi
 
 // will expand later
 const gachaPool: GachaItem[] = [
-    { name: '', rarity: 'Common' },
-    { name: '', rarity: 'Rare' },
-    { name: '', rarity: 'Legendary' },
+    { name: 'Sparkle', rarity: 'Common' },
+    { name: 'Sparxie', rarity: 'Common' },
+    { name: 'D.Va', rarity: 'Rare' },
+    { name: 'Ahri', rarity: 'Legendary' },
+    { name: 'Yunyun', rarity: 'Legendary' },
 ];
 
 // will change later
@@ -82,6 +85,7 @@ function makeGachaPull(count = 1): void {
     const gacha = new Gacha();
     const results = gacha.pull(count);
     spendPulls(count);
+    pullCharacters(results);
     updatePullDisplay();
     pull(count, results);
     printResults(results);

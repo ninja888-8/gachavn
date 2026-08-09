@@ -12,9 +12,6 @@ let w: number, h: number;
 let starSmall = new Image();
 starSmall.src = new URL('../images/small-star.png', import.meta.url).href;
 
-let star = new Image();
-star.src = new URL('../images/star-med.png', import.meta.url).href;
-
 let starPos: number[][] = [];
 let starGrow = true;
 let starOpacity = 0.0;
@@ -143,7 +140,7 @@ function draw() {
     
     if (meteor) {
         ctx.globalAlpha = 1;
-        console.log(`${meteorFrame} ${meteorPos}`);
+        // console.log(`${meteorFrame} ${meteorPos}`);
 
         if (meteorFrame % 5 == 0) {
             linePos.push([w + (Math.random() - 0.5) * 400, h + (Math.random() - 0.5) * 400 - h/4]);
