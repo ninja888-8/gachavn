@@ -15,19 +15,25 @@ client = genai.Client()
 
 app = FastAPI()
 
-# allowed origins
 origins = [
     "http://localhost:5173",    # local port
     "http://127.0.0.1:5173",
 ]
-
 if FRONTEND_URL:
     origins.append(FRONTEND_URL)
 
+ALLOW_ALL = os.environ.get("ALLOW_ALL_ORIGINS", "false").lower() in ("1", "true", "yes")
+if ALLOW_ALL:
+    cors_origins = ["*"]
+    allow_credentials = False
+else:
+    cors_origins = origins
+    allow_credentials = True
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
