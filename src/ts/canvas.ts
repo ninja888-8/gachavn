@@ -1,5 +1,7 @@
 import type { GachaItem } from './gacha.ts';
 
+const overlay = document.getElementById("gacha-overlay") as HTMLElement;
+
 let canvas = document.getElementById('canvas') as HTMLCanvasElement;
 let ctx = canvas.getContext("2d", {alpha: false}) as CanvasRenderingContext2D;
 
@@ -242,6 +244,8 @@ function draw() {
 
             pullControls[0].disabled = false;
             pullControls[1].disabled = false;
+
+            overlay.style.display = "flex";
         }
     }
     

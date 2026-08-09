@@ -8,6 +8,7 @@ export interface GachaItem {
     rarity: Rarity;
 }
 
+const overlay = document.getElementById("gacha-overlay") as HTMLElement;
 const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDivElement | null;
 
 // will expand later
@@ -70,7 +71,7 @@ function updatePullDisplay() {
     renderPullCount(pullCountDisplay);
 }
 
-function makeGachaPull(count = 1): void {
+function makeGachaPull(count = 1): void {    
     const availablePulls = getEarnedPulls();
 
     if (availablePulls < count) {
@@ -84,6 +85,8 @@ function makeGachaPull(count = 1): void {
     updatePullDisplay();
     pull(count, results);
     printResults(results);
+
+    overlay.style.display = "none";
 }
 
 document.getElementById('gamble1')?.addEventListener('click', makeGachaPull.bind(null, 1));
