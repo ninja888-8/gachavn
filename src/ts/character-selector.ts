@@ -14,13 +14,13 @@ const SELECTED_CHARACTER_KEY = 'gachavn-selected';
 const previousCharacterIndex = localStorage.getItem(SELECTED_CHARACTER_KEY);
 
 export const characters = [
-    { name: 'Amy', src: '../images/amy.png' },
-    { name: 'Sparkle', src: '../images/sparkle.png' },
-    { name: 'Sparxie', src: '../images/sparxie.png' },
-    { name: 'D.Va', src: '../images/dva.png' },
-    { name: 'Columbina', src: '../images/columbina.png'},
-    { name: 'Ahri', src: '../images/ahri.png' },
-    { name: 'Yunyun', src: '../images/yunyun.png' },
+    { name: 'Amy', src: new URL('../images/amy.png', import.meta.url).href },
+    { name: 'Sparkle', src: new URL('../images/sparkle.png', import.meta.url).href },
+    { name: 'Sparxie', src: new URL('../images/sparxie.png', import.meta.url).href },
+    { name: 'D.Va', src: new URL('../images/dva.png', import.meta.url).href },
+    { name: 'Columbina', src: new URL('../images/columbina.png', import.meta.url).href },
+    { name: 'Ahri', src: new URL('../images/ahri.png', import.meta.url).href },
+    { name: 'Yunyun', src: new URL('../images/yunyun.png', import.meta.url).href },
 ];
 
 if (previousCharacterIndex && previewImage) {
