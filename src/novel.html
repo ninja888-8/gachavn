@@ -11,9 +11,45 @@
 <body class="visual-novel-body">
     <div class="book-scene">
         <div class="book-stand">
-            <section class="book-card closed-book" id="upload-menu">
+            <section class="book-card closed-book" id="select-menu">
                 <div class="book-cover-content">
                     <p class="eyebrow">Chapter One</p>
+                    <h1>Select your narrator character!</h1>
+                    <p class="hero-copy">Select one of the marvelous characters you've earned from the gacha. Don't have pulls? solve questions by continuing :)</p>
+                    
+                    <div class="character-select-block">
+                        <button id="character-picker" type="button" class="dropzone character-picker" aria-haspopup="dialog" aria-label="Open character selector">
+                            <span class="character-preview-wrapper">
+                                <img id="select-preview" class="character-preview" src="images/sparkle.png" alt="Selected character preview">
+                            </span>
+                            <span class="dropzone-placeholder">
+                                <span class="dropzone-title">Choose your narrator</span>
+                                <span class="dropzone-subtitle">Click to open the character selector</span>
+                            </span>
+                        </button>
+                    </div>
+
+                    <button id="select-confirm-btn" class="primary-btn">Confirm character</button>
+                    <a class="text-link" href="gacha.html">Visit the gacha room</a>
+                    <a class="text-link" href="index.html">Return to main menu</a>
+                </div>
+            </section>
+
+            <div id="character-overlay" class="character-overlay" role="dialog" style="display:none;">
+                <div class="character-overlay-backdrop"></div>
+                <div class="character-overlay-panel">
+                    <div class="character-overlay-header">
+                        <h2 id="character-overlay-title">Choose your narrator</h2>
+                        <button id="character-cancel-btn" class="secondary-btn" type="button">Cancel</button>
+                    </div>
+                    <p class="character-overlay-copy">Select the character you wish to use as your narrator!</p>
+                    <div id="character-grid" class="character-grid"></div>
+                </div>
+            </div>
+
+            <section class="book-card closed-book" id="upload-menu" style="display:none;">
+                <div class="book-cover-content">
+                    <p class="eyebrow">Chapter Two</p>
                     <h1>Begin your study tale</h1>
                     <p class="hero-copy">Place a sheet of notes inside this velvet-covered book and watch the story open into a quiz.</p>
                     <label class="dropzone" for="image-picker">
@@ -50,7 +86,7 @@
                             </div>
                             <div class="dialogue-row">
                                 <img id="sprite-left" class="sprite-slot sprite-slot-left" src="images/racoon.png" alt="">
-                                <div id="question-header" class="question-header">Hi classmate! How's studying going? I've had a lot of problems with a specific part of this unit, so I'll quiz you on it!</div>
+                                <div id="question-header" class="question-header"></div>
                                 <img id="sprite-right" class="sprite-slot sprite-slot-right" src="images/yunyun.png" alt="">
                             </div>
                             <div id="answer-choices" class="answer-grid" style="display:none;">
@@ -69,6 +105,7 @@
 </body>
 
 <script type="module" src="./ts/connection.ts"></script>
+<script type="module" src="./ts/character-selector.ts"></script>
 <script type="module" src="./ts/learn.ts"></script>
 <script type="module" src="./ts/vn-effects.ts"></script>
 

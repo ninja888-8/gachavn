@@ -63,15 +63,15 @@ async function sendImageToBackend() {
     }
 }
 
-function toggleLoadingMenu() {
-    if (loadingMenu) {
-        loadingMenu.style.display = loadingMenu.style.display === 'none' ? 'block' : 'none';
+export function toggleUploadMenu() {
+    if (uploadMenu) {
+        uploadMenu.style.display = uploadMenu.style.display === 'none' ? 'block' : 'none';
     }
 }
 
-function toggleUploadMenu() {
-    if (uploadMenu) {
-        uploadMenu.style.display = uploadMenu.style.display === 'none' ? 'block' : 'none';
+function toggleLoadingMenu() {
+    if (loadingMenu) {
+        loadingMenu.style.display = loadingMenu.style.display === 'none' ? 'block' : 'none';
     }
 }
 
