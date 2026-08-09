@@ -110,7 +110,7 @@ function answerQuestion(buttonId: number) {
 
         if (isCorrect) {
             incrementEarnedPulls();
-            updatePullSummary('Correct! Your pull stash just grew.');
+            updatePullSummary('Correct! You gained a pull.');
         } else {
             updatePullSummary(`Not quite. The correct answer was: ${correctAnswer}`);
         }
