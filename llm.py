@@ -4,8 +4,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from dotenv import load_dotenv
+import os
 from google import genai
 from google.genai import types
+
+load_dotenv()
+FRONTEND_URL = os.environ.get("FRONTEND_URL")
+# requires GEMINI_API_KEY environment variable to be set in .env
+client = genai.Client()
 
 app = FastAPI()
 
@@ -13,9 +19,10 @@ app = FastAPI()
 origins = [
     "http://localhost:5173",    # local port
     "http://127.0.0.1:5173",
-    
-    # insert production frontend URL here
 ]
+
+if FRONTEND_URL:
+    origins.append(FRONTEND_URL)
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,10 +34,6 @@ app.add_middleware(
 
 class ResponseData(BaseModel):
     response: str | None
-
-# requires GEMINI_API_KEY environment variable to be set in .env
-load_dotenv()
-client = genai.Client()
 
 @app.post("/api/questions")
 async def generate_questions(file: UploadFile = File(...)):
