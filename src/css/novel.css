@@ -132,6 +132,8 @@
 }
 
 .right-page {
+    position: relative;
+    overflow: visible;
     background: linear-gradient(180deg, rgba(38, 20, 30, 0.75), rgba(20, 10, 16, 0.94));
     backdrop-filter: blur(6px);
     border-top: 1px solid rgba(255, 255, 255, 0.18);
@@ -423,12 +425,19 @@
 }
 
 .sprite-slot-right {
-    right: -20vw;
+    right: -16vw;
     width: 24vw;
 }
 
 .sprite-slot-right.dialogue-animate {
     animation: sprite-bob-right 1.2s ease-in-out infinite;
+}
+
+@media (max-width: 900px) {
+    .sprite-slot-right {
+        right: -8vw;
+        width: 32vw;
+    }
 }
 
 .sprite-slot-left.choice-animate {

@@ -119,7 +119,7 @@ canvas {
     --brightness: 0;
 }
 
-img {
+#image {
     position: relative;
     max-height: 75vh;
     transition: all 0.5s;
@@ -127,17 +127,17 @@ img {
     left: 0;
 }
 
-img.common {
+#image.common {
     --quality-colour: rgb(123, 123, 123);
     /* backdrop-filter: drop-shadow(0 0 10px rgb(123, 123, 123)); */
 }
 
-img.rare {
+#image.rare {
     --quality-colour: rgb(186, 19, 186);
     /* backdrop-filter: drop-shadow(0 0 10px rgb(186, 19, 186)); */
 }
 
-img.legendary {
+#image.legendary {
     --quality-colour: rgb(237, 198, 57);
     /* backdrop-filter: drop-shadow(0 0 10px rgb(237, 198, 57)); */
 }

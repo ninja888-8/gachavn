@@ -85,7 +85,7 @@ imageInput?.addEventListener('change', function(event) {
 
         reader.onload = function(e: ProgressEvent<FileReader>) {
             if (preview) {
-                const placeholder = document.querySelector('.dropzone-placeholder') as HTMLSpanElement | null;
+                const placeholder = document.getElementById('dropzone-upload') as HTMLSpanElement | null;
                 preview.src = e.target?.result as string;
                 preview.style.display = 'block';
                 if (placeholder) {
