@@ -13,7 +13,7 @@ const previewImage = document.getElementById('select-preview') as HTMLImageEleme
 const SELECTED_CHARACTER_KEY = 'gachavn-selected';
 const previousCharacterIndex = localStorage.getItem(SELECTED_CHARACTER_KEY);
 
-const characters = [
+export const characters = [
     { name: 'Amy', src: '../images/amy.png' },
     { name: 'Sparkle', src: '../images/sparkle.png' },
     { name: 'Sparxie', src: '../images/sparxie.png' },
@@ -23,7 +23,7 @@ const characters = [
     { name: 'Yunyun', src: '../images/yunyun.png' },
 ];
 
-if (previousCharacterIndex) {
+if (previousCharacterIndex && previewImage) {
     (previewImage as HTMLImageElement).src = characters[parseInt(previousCharacterIndex)].src;
 }
 let selectedCharacter = previousCharacterIndex ? characters[parseInt(previousCharacterIndex)]: characters[0];

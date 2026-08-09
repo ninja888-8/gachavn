@@ -1,3 +1,8 @@
+:root {
+    --brightness: 1;
+    --quality-colour: transparent;
+}
+
 .stats-card {
     width: fit-content;
     min-width: 170px;
@@ -70,4 +75,168 @@ canvas {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
+}
+
+#pull-overlay {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s;
+    opacity: 0;
+}
+
+#character-splash {
+    position: relative;
+    /* background-repeat: no-repeat;
+    background-size: auto 75vh; */
+}
+
+.silhouette {
+    --brightness: 0;
+}
+
+img {
+    position: relative;
+    max-height: 75vh;
+    transition: all 0.5s;
+    filter: brightness(var(--brightness)) drop-shadow(0 0 10px var(--quality-colour));
+    left: 0;
+}
+
+img.common {
+    --quality-colour: rgb(123, 123, 123);
+    /* backdrop-filter: drop-shadow(0 0 10px rgb(123, 123, 123)); */
+}
+
+img.rare {
+    --quality-colour: rgb(186, 19, 186);
+    /* backdrop-filter: drop-shadow(0 0 10px rgb(186, 19, 186)); */
+}
+
+img.legendary {
+    --quality-colour: rgb(237, 198, 57);
+    /* backdrop-filter: drop-shadow(0 0 10px rgb(237, 198, 57)); */
+}
+
+p.common {
+    color: rgb(123, 123, 123);
+}
+
+p.rare {
+    color: rgb(186, 19, 186);
+}
+
+p.legendary {
+    color: rgb(237, 198, 57);
+}
+
+/* #image {
+    opacity: 0;
+} */
+
+#char-desc {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    top: 0;
+    bottom: 0;
+    left: 5vw;
+    z-index: 3;
+    transition: all 0.25s;
+    font-size: 18pt;
+    max-height: 75vh;
+}
+
+#pull-list {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 28px;
+}
+
+.pull-columns-row {
+    display: flex;
+    gap: 1.4vw;
+}
+
+.pull-column {
+    --quality-colour: rgb(123, 123, 123);
+    position: relative;
+    width: 8vw;
+    min-width: 60px;
+    max-width: 104px;
+    height: 64vh;
+    box-sizing: border-box;
+    overflow: hidden;
+    border: 3px solid var(--quality-colour);
+    /* an oversized radius clamps to half the element's width/height,
+       so the top and bottom ends render as full circles */
+    border-radius: 999px;
+    box-shadow: 0 0 14px var(--quality-colour);
+    opacity: 0;
+    transform: translateY(30px) scale(0.85);
+    animation: pull-column-in 0.5s ease-out forwards;
+}
+
+.pull-column-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    /* centred on the face rather than the whole portrait */
+    object-position: 50% 20%;
+    filter: none;
+    left: 0;
+}
+
+@keyframes pull-column-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.pull-continue-btn {
+    padding: 12px 32px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #ff8fb3, #b24d75);
+    border: none;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(152, 81, 109, 0.35);
+    cursor: pointer;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: pull-continue-btn-in 0.4s ease-out forwards;
+}
+
+.pull-continue-btn:hover {
+    filter: brightness(1.08);
+}
+
+@keyframes pull-continue-btn-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
