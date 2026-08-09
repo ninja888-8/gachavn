@@ -4,33 +4,45 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from dotenv import load_dotenv
+import os
 from google import genai
 from google.genai import types
 
+load_dotenv()
+FRONTEND_URL = os.environ.get("FRONTEND_URL")
+# requires GEMINI_API_KEY environment variable to be set in .env
+client = genai.Client()
+
 app = FastAPI()
 
-# allowed origins
 origins = [
-    "http://localhost:5173",    # local port
+    # local ports
+    "http://localhost:5173",
     "http://127.0.0.1:5173",
-    
-    # insert production frontend URL here
 ]
+
+# live hosting url if exists
+if FRONTEND_URL:
+    origins.append(FRONTEND_URL)
+
+ALLOW_ALL = os.environ.get("ALLOW_ALL_ORIGINS", "false").lower() in ("1", "true", "yes")
+if ALLOW_ALL:
+    cors_origins = ["*"]
+    allow_credentials = False
+else:
+    cors_origins = origins
+    allow_credentials = True
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=cors_origins,
+    allow_credentials=allow_credentials,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 class ResponseData(BaseModel):
     response: str | None
-
-# requires GEMINI_API_KEY environment variable to be set in .env
-load_dotenv()
-client = genai.Client()
 
 @app.post("/api/questions")
 async def generate_questions(file: UploadFile = File(...)):
@@ -73,4 +85,5 @@ async def generate_summary(file: UploadFile = File(...)):
     return ResponseData(response=response.text)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    port = int(os.environ.get("PORT", "8000"))
+    uvicorn.run(app, host="0.0.0.0", port=port)

@@ -5,7 +5,8 @@ const quizMenu = document.getElementById('quiz-menu') as HTMLDivElement;
 const questionHeader = document.getElementById('question-header') as HTMLDivElement;
 const answerChoicesContainer = document.getElementById('answer-choices') as HTMLDivElement | null;
 const answerChoices = document.querySelectorAll('#answer-choices button') as NodeListOf<HTMLButtonElement>;
-const readyBtn = document.getElementById('ready-btn') as HTMLButtonElement;
+const nextBtn = document.getElementById('next-btn') as HTMLButtonElement;
+const resetBtn = document.getElementById('reset-btn') as HTMLButtonElement;
 const pullCountDisplay = document.getElementById('pull-count-display') as HTMLDivElement | null;
 const questionProgress = document.getElementById('question-progress') as HTMLDivElement | null;
 const quizFeedback = document.getElementById('quiz-feedback') as HTMLDivElement | null;
@@ -50,7 +51,7 @@ function updatePullSummary(message?: string) {
 
 function initQuestion(questionIndex: number = 0) {
     if (llmResponse) {
-        readyBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
 
         questionHeader.textContent = llmResponse[questionIndex].question;
         const choices = llmResponse[questionIndex].options;
@@ -119,7 +120,8 @@ function answerQuestion(buttonId: number) {
                     answerChoices.forEach(button => {
                         button.style.display = 'none';
                     });
-                    readyBtn.style.display = 'none';
+                    nextBtn.style.display = 'none';
+                    resetBtn.style.display = 'block';
                     if (questionProgress) {
                         questionProgress.textContent = 'Quiz complete';
                     }
@@ -140,7 +142,8 @@ function handleAnswerClick(event: Event) {
     }
 }
 
-readyBtn?.addEventListener('click', () => initQuestion(currentQuestionIndex));
+nextBtn?.addEventListener('click', () => initQuestion(currentQuestionIndex));
+resetBtn?.addEventListener('click', () => window.location.reload());
 answerChoices.forEach(button => {
     button.addEventListener('click', handleAnswerClick);
 });

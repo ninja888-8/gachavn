@@ -115,6 +115,7 @@ body {
     align-self: flex-end;
     margin-bottom: 4vh;
     position: relative;
+    z-index: 10;
 }
 
 .book-page {
@@ -193,6 +194,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    z-index: 10;
 }
 
 .right-page .page-content {
@@ -451,20 +453,21 @@ button:disabled {
 
 .sprite-slot {
     position: absolute;
-    width: 20vw;
     bottom: 0;
     object-fit: contain;
-    z-index: 3;
+    z-index: -10;
     filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.45));
     pointer-events: none;
 }
 
 .sprite-slot-left {
-    left: -20vw;
+    left: -25vw;
+    width: 30vw;
 }
 
 .sprite-slot-right {
     right: -20vw;
+    width: 24vw;
 }
 
 .question-header {
@@ -529,7 +532,6 @@ button:disabled {
 
 .gacha-backdrop {
     min-height: 100vh;
-    padding: 24px;
     position: relative;
 }
 
@@ -602,10 +604,6 @@ canvas {
 
     .answer-grid {
         grid-template-columns: 1fr;
-    }
-
-    .gacha-backdrop {
-        padding: 14px;
     }
 
     .dialogue-row {

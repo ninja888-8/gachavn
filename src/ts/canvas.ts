@@ -1,5 +1,7 @@
 import type { GachaItem } from './gacha.ts';
 
+const overlay = document.getElementById("gacha-overlay") as HTMLElement;
+
 let canvas = document.getElementById('canvas') as HTMLCanvasElement;
 let ctx = canvas.getContext("2d", {alpha: false}) as CanvasRenderingContext2D;
 
@@ -19,14 +21,22 @@ let starOpacity = 0.0;
 
 let meteor = false;
 let meteorFrame = 0;
-let meteorPos = -350;
+let meteorPos = 0;
 let meteorVel: number;
 let meteorAccel: number;
 let trailColor = "rgb(123, 123, 123)";
 let linePos: number[][] = [];
 
+let aspect: number;
+let theta: number;
+
+let meteorPosStart = 0;
+let meteorPosCenter = 0;
+let meteorV0: number;
+let meteorA0: number;
+
 let flair = new Image();
-flair.src = new URL('../images/common-flair.png', import.meta.url).href;
+let flairPos: number[] = [0, 0];
 let highestRarity = "Common";
 
 let raf: number;
@@ -44,8 +54,8 @@ export function pull(n: number, results: GachaItem[]) {
         highestRarity = results[0].rarity;
     }
     
-    console.log(results);
-    console.log(highestRarity);
+    // console.log(results);
+    // console.log(highestRarity);
 
     starGrow = true;
     starOpacity = 0.05;
@@ -61,8 +71,23 @@ function resizeCanvas() {
     w = canvas.width;
     h = canvas.height;
 
-    meteorVel = h/2 + 350;
-    meteorAccel = -h/2 - 350;
+    aspect = 2*w/h;
+    theta = Math.atan(1/aspect);
+
+    const totalTime = 3;
+    const halfTime = totalTime / 2;
+    const offscreenMargin = 150;
+
+    meteorPosCenter = h/4 - 400 * Math.sin(theta);
+    const halfDist = (w/2 + offscreenMargin) / aspect;
+    meteorPosStart = meteorPosCenter - halfDist;
+
+    meteorV0 = 2 * halfDist / halfTime;
+    meteorA0 = meteorV0 / halfTime;
+ 
+    meteorPos = meteorPosStart;
+    meteorVel = meteorV0;
+    meteorAccel = -meteorA0;
 
     cancelAnimationFrame(raf);
     draw();
@@ -78,21 +103,17 @@ function draw() {
     if (starPos.length != 0) {
         // if (starOpacity > 0 && starGrow || ) {
             ctx.globalAlpha = starOpacity;
-            let lastX;
-            let lastY;
             
+            ctx.beginPath();
             for (let i = 0; i < starPos.length; i++) {
                 let currentX = starPos[i][0], currentY = starPos[i][1];
                 ctx.drawImage(starSmall, currentX, currentY);
                 
-                if (lastX && lastY) {
-                    if (i == 1) {
-                        ctx.beginPath();
-                        ctx.moveTo(lastX + 16, lastY + 16);
-                    }
+                if (i == 0) {
+                    ctx.moveTo(currentX + 16, currentY + 16);
+                } else {
                     ctx.lineTo(currentX + 16, currentY + 16);
                 }
-                lastX = currentX, lastY = currentY;
             }
             
             ctx.strokeStyle = "white";
@@ -124,9 +145,6 @@ function draw() {
         ctx.globalAlpha = 1;
         console.log(`${meteorFrame} ${meteorPos}`);
 
-        let aspect = 2*w/h;
-        let theta = Math.atan(1/aspect);
-
         if (meteorFrame % 5 == 0) {
             linePos.push([w + (Math.random() - 0.5) * 400, h + (Math.random() - 0.5) * 400 - h/4]);
         }
@@ -151,8 +169,12 @@ function draw() {
         }
 
         meteorPos += meteorVel / 60;
-        if (meteorFrame == 59) {
+        if (meteorFrame == 89) {
             meteorAccel = -meteorAccel;
+            flairPos = [
+                Math.floor(meteorPos * aspect + 400 * Math.cos(theta)),
+                Math.floor(meteorPos + 400 * Math.sin(theta) + h/4)
+            ];
             if (highestRarity == 'Rare') {
                 trailColor = 'rgb(186, 19, 186)';
                 flair.src = new URL('../images/rare-flair.png', import.meta.url).href;
@@ -163,58 +185,67 @@ function draw() {
         }
         meteorVel += meteorAccel / 60;
 
-        if (meteorFrame >= 59) {
-            ctx.globalAlpha = 0.6 * (119 - meteorFrame);
-            ctx.rotate((meteorFrame - 59) * Math.PI / 180);
-            ctx.drawImage(flair, w/2, h/2);
-            ctx.globalAlpha = 1;
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-        }
-
         // if (meteorFrame < 30 || meteorFrame > 90) {
         //     meteorPos += (h/2 + 350) / 120 * 3/2;
         // } else {
         //     meteorPos += (h/2 + 350) / 120 * 2/3;
         // }
 
-        let aaa = [Math.floor(meteorPos * aspect), Math.floor(meteorPos + h/4)];
-        let test = [Math.floor(meteorPos * aspect + 400 * Math.cos(theta)), Math.floor(meteorPos + 400 * Math.sin(theta) + h/4)];
+        let tail = [Math.floor(meteorPos * aspect), Math.floor(meteorPos + h/4)];
+        let head = [Math.floor(meteorPos * aspect + 400 * Math.cos(theta)), Math.floor(meteorPos + 400 * Math.sin(theta) + h/4)];
         let angle = theta + Math.PI/2;
 
         ctx.beginPath();
-        ctx.arc(test[0], test[1], 20, 0, 2 * Math.PI);
+        ctx.arc(head[0], head[1], 20, 0, 2 * Math.PI);
         ctx.fillStyle = trailColor;
         ctx.fill();
 
-        let gradient = ctx.createLinearGradient(aaa[0], aaa[1], test[0], test[1]);
+        let gradient = ctx.createLinearGradient(tail[0], tail[1], head[0], head[1]);
         // gradient.addColorStop(0, "rgb(4, 5, 36)");
         gradient.addColorStop(0, "rgba(0, 0, 0, 0)");
         gradient.addColorStop(1, trailColor);
 
         ctx.beginPath();
-        ctx.moveTo(aaa[0], aaa[1]);
-        ctx.lineTo(test[0] + 20 * Math.cos(angle), test[1] + 20 * Math.sin(angle));
-        ctx.lineTo(test[0] - 20 * Math.cos(angle), test[1] - 20 * Math.sin(angle));
+        ctx.moveTo(tail[0], tail[1]);
+        ctx.lineTo(Math.floor(head[0] + 20 * Math.cos(angle)), Math.floor(head[1] + 20 * Math.sin(angle)));
+        ctx.lineTo(Math.floor(head[0] - 20 * Math.cos(angle)), Math.floor(head[1] - 20 * Math.sin(angle)));
         ctx.closePath();
+        // ctx.strokeStyle = "transparent";
         ctx.fillStyle = gradient;
         ctx.fill();
 
-        ctx.drawImage(starSmall, test[0] - 16, test[1] - 16);
+        ctx.drawImage(starSmall, head[0] - 16, head[1] - 16);
+
+        if (meteorFrame >= 89) {
+            ctx.globalAlpha = 0.6 * (179 - meteorFrame) / 120;
+            ctx.translate(flairPos[0], flairPos[1]);
+            ctx.rotate((meteorFrame - 89) * Math.PI / 180);
+            let flairSize = 64 * (meteorFrame - 59) / 30;
+            ctx.drawImage(flair, -flairSize / 2, -flairSize / 2, flairSize, flairSize);
+            ctx.globalAlpha = 1;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+        }
 
         meteorFrame++;
-        if (meteorFrame >= 120) {
+        if (meteorFrame >= 170) {
+            starOpacity -= 0.025;
+        }
+        if (meteorFrame >= 180) {
             meteor = false;
-            meteorPos = -350;
-            meteorVel = h/2 + 350;
-            meteorAccel = -h/2 - 350;
+            meteorPos = meteorPosStart;
+            meteorVel = meteorV0;
+            meteorAccel = -meteorA0;
             trailColor = "rgb(123, 123, 123)";
             meteorFrame = 0;
             starOpacity = 0;
             starPos.length = 0;
             highestRarity = "Common";
+            flair.src = "";
 
             pullControls[0].disabled = false;
             pullControls[1].disabled = false;
+
+            overlay.style.display = "flex";
         }
     }
     

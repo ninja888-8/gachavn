@@ -10,7 +10,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        menu: resolve(__dirname, 'src/menu.html'),
+        index: resolve(__dirname, 'src/index.html'),
         novel: resolve(__dirname, 'src/novel.html'),
         gacha: resolve(__dirname, 'src/gacha.html'),
         gallery: resolve(__dirname, 'src/gallery.html')
@@ -18,6 +18,6 @@ export default defineConfig({
     }
   },
   server: {
-    open: '/menu.html'
+    open: '/index.html'
   }
 });
