@@ -1,5 +1,5 @@
 # gachavn
-gacha visual novel!!!
+gacha visual novel!!! submit any study sheet and receive multiple choice questions to solve! and gamble your pulls away when you earn them from getting the questions correct :D
 
 ## screenshots
 ![homepage example](./homepage.png)
