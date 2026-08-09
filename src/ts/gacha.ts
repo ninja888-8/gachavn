@@ -23,7 +23,6 @@ const gachaPool: GachaItem[] = [
     { name: 'Yunyun', rarity: 'Legendary' },
 ];
 
-// will change later
 const rarityRates: Record<Rarity, number> = {
     Common: 0.85,
     Rare: 0.1,
@@ -109,7 +108,6 @@ function makeGachaPull(count = 1): void {
     overlay.style.display = "none";
 }
 
-// change later
 export function getCharacterId(name: string): number {
     for (let i = 0; i < gachaPool.length; i++) {
         if (name == gachaPool[i].name) return i;
