@@ -1,10 +1,7 @@
-// vn-effects.js
-// Purely cosmetic: gives #question-header a visual-novel typewriter reveal
-// whenever its text content changes. Does not touch quiz/scoring logic.
-
 const HEADER_SELECTOR = "#question-header";
 const QUIZ_MENU_SELECTOR = "#quiz-menu";
 const ANSWER_BUTTON_SELECTOR = "#answer-choices button";
+const NEXT_BUTTON_SELECTOR = "next-btn";
 const CHAR_INTERVAL_MS = 18;
 
 const INTRO_LINES: string[] = [
@@ -17,16 +14,19 @@ function pickRandomIntroLine(): string {
     return INTRO_LINES[Math.floor(Math.random() * INTRO_LINES.length)];
 }
 
-function setAnswerButtonsDisabled(disabled: boolean) {
+function setButtonsDisabled(disabled: boolean) {
     document.querySelectorAll<HTMLButtonElement>(ANSWER_BUTTON_SELECTOR).forEach((button) => {
         button.disabled = disabled;
-        button.classList.toggle("disabled-while-typing", disabled);
     });
+    const nextBtn = document.getElementById(NEXT_BUTTON_SELECTOR);
+    if (nextBtn) {
+        (nextBtn as HTMLButtonElement).disabled = disabled;
+    }
 }
 
 function typewrite(el: HTMLElement, text: string) {
     el.classList.add("typing");
-    setAnswerButtonsDisabled(true);
+    setButtonsDisabled(true);
     el.textContent = "";
     let i = 0;
 
@@ -37,7 +37,7 @@ function typewrite(el: HTMLElement, text: string) {
             requestAnimationFrame(() => setTimeout(tick, CHAR_INTERVAL_MS));
         } else {
             el.classList.remove("typing");
-            setAnswerButtonsDisabled(false);
+            setButtonsDisabled(false);
         }
     };
     tick();
